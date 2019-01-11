@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   networks: {
     development: {
@@ -48,12 +50,12 @@ module.exports = {
       fee_limit: 100000000,
 
       // tronbox 2.1.9+
-      // fullHost: "https://api.shasta.trongrid.io",
+      fullHost: "https://api.shasta.trongrid.io",
 
       // tronbox < 2.1.9
-      fullNode: "https://api.shasta.trongrid.io",
-      solidityNode: "https://api.shasta.trongrid.io",
-      eventServer: "https://api.shasta.trongrid.io",
+      // fullNode: "https://api.shasta.trongrid.io",
+      // solidityNode: "https://api.shasta.trongrid.io",
+      // eventServer: "https://api.shasta.trongrid.io",
 
       network_id: "*"
     }
