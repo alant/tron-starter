@@ -7,9 +7,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 
 import { withStyles } from '@material-ui/core/styles';
+
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import Home from './Home';
+import Edit from './Edit';
 
 const styles = theme => ({
   appBar: {
@@ -25,31 +28,41 @@ const styles = theme => ({
   },
 })
 
+const EditBtn = withRouter(({ history }) => (
+  <Button color="inherit" onClick={() => { history.push('/edit') }}>
+    Edit
+  </Button>
+))
+
+const HomeBtn = withRouter(({ history }) => (
+  <Button color="inherit" onClick={() => { history.push('/') }}>
+    Home
+  </Button>
+))
+
 class App extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="App">
-        <CssBaseline />
-        <AppBar position="static" color="default" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" align="left" noWrap className={classes.toolbarTitle}>
-              Tron Dapp
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-        <main>
-          <Grid container spacing={40} alignItems="flex-end">
-            <div className={classes.heroContent}>
-              <Button variant="contained" color="primary">
-                Hello World
-              </Button>
-            </div>
-          </Grid>
-        </main>
-        <p> Built by alant with <span role="img" aria-label="Love">❤️</span> </p>
-      </div>
+      <Router>
+        <div className="App">
+          <CssBaseline />
+          <AppBar position="static" color="default" className={classes.appBar}>
+            <Toolbar>
+              <Typography variant="h6" color="inherit" align="left" noWrap className={classes.toolbarTitle}>
+                Tron Dapp
+              </Typography>
+              <HomeBtn />
+              <EditBtn />
+            </Toolbar>
+          </AppBar>
+          <main>
+            <Route exact path="/" component={Home} />
+            <Route path="/edit" component={Edit} />
+          </main>
+          <p> Built by alant with <span role="img" aria-label="Love">❤️</span> </p>
+        </div>
+      </Router>
     );
   }
 }
