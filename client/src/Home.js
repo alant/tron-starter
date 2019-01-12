@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { storedData: props.storedData };
-  }
   render() {
     return (
       <div>
-        This is Home {this.state.storedData}
+        This is Home {this.props.storedData}
       </div>
     )
   }
 }
 
-export default Home;
+const mapStateToProps = function(state) {
+  return {
+    storedData: state.dappReducer.storedValue
+  }
+}
+
+export default connect(mapStateToProps)(Home);

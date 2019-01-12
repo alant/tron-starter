@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { connect } from 'react-redux';
+
 import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import Home from './Home';
 import Edit from './Edit';
@@ -17,6 +19,8 @@ import Edit from './Edit';
 import TronWeb from 'tronweb';
 import Utils from './utils';
 const FOUNDATION_ADDRESS = 'TWiWt5SEDzaEqS6kE5gandWMNfxR2B5xzg';
+
+
 
 const styles = theme => ({
   appBar: {
@@ -49,8 +53,7 @@ class App extends Component {
     tronWeb: {
         installed: false,
         loggedIn: false
-    },
-    storedData: -1
+    }
   }
 
   async componentDidMount() {
@@ -129,9 +132,10 @@ class App extends Component {
       }
 
       Utils.setTronWeb(window.tronWeb);
-      const data = await Utils.fetchStoredData();
-      console.log("===> storedData: ", data.toNumber());
-      this.setState({storedData: data});
+      let data = await Utils.fetchStoredData();
+      data = data.toNumber()
+      console.log("===> storedData: ", data);
+      this.props.gotStoredValue(data);
       // this.startEventListener();
       // this.fetchMessages();
   }
@@ -153,7 +157,8 @@ class App extends Component {
           </AppBar>
           <main>
             <Route exact path="/"
-              render={(props) => <Home {...props} storedData={this.state.storedData} />}
+              // render={(props) => <Home {...props} storedData={this.state.storedData} />}
+              component={Home}
             />
             <Route path="/edit" component={Edit} />
           </main>
@@ -168,4 +173,16 @@ App.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(App);
+const mapStateToProps = function(state) {
+  return {
+    storedData: state.dappReducer.storedValue
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    gotStoredValue: (value) => dispatch({ type: "GOT_STORED_VALUE", storedValue: value })
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
