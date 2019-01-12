@@ -130,7 +130,7 @@ class App extends Component {
 
       Utils.setTronWeb(window.tronWeb);
       const data = await Utils.fetchStoredData();
-      console.log("===> storedData: ", data);
+      console.log("===> storedData: ", data.toNumber());
       this.setState({storedData: data});
       // this.startEventListener();
       // this.fetchMessages();
