@@ -1,12 +1,14 @@
 import SimpleStorage from '../contracts/SimpleStorage.json';
 
+const contractAddress = '414ad2dc10595ffccd49ebf1e3591c886a78967b7a';
+
 const utils = {
     tronWeb: false,
     contract: false,
 
     setTronWeb(tronWeb) {
         this.tronWeb = tronWeb;
-        this.contract = tronWeb.contract(SimpleStorage.abi, SimpleStorage.networks['*'].address)
+        this.contract = tronWeb.contract(SimpleStorage.abi, contractAddress);
     },
 
     transformMessage(message) {
