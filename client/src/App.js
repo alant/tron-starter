@@ -49,7 +49,8 @@ class App extends Component {
     tronWeb: {
         installed: false,
         loggedIn: false
-    }
+    },
+    storedData: -1
   }
 
   async componentDidMount() {
@@ -128,7 +129,8 @@ class App extends Component {
       }
 
       Utils.setTronWeb(window.tronWeb);
-
+      const data = await Utils.fetchStoredData();
+      this.setState({storedData: data});
       // this.startEventListener();
       // this.fetchMessages();
   }
@@ -149,7 +151,9 @@ class App extends Component {
             </Toolbar>
           </AppBar>
           <main>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/"
+              render={(props) => <Home {...props} storedData={this.state.storedData} />}
+            />
             <Route path="/edit" component={Edit} />
           </main>
           <p> Built by alant with <span role="img" aria-label="Love">❤️</span> </p>
